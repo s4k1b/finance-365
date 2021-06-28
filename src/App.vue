@@ -1,27 +1,27 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <div class="grid grid-cols-12 grid-flow-col gap-0">
+    <div class="col-span-2 bg-blue-500 h-screen">
+      <sidebar />
+    </div>
+    <div class="col-span-10 h-screen">
+      <calendar />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue'
-  import HelloWorld from './components/HelloWorld.vue'
+  import { defineAsyncComponent, defineComponent } from 'vue'
 
   export default defineComponent({
     name: 'App',
+
     components: {
-      HelloWorld,
+      Sidebar: defineAsyncComponent(
+        () => import('@/components/sidebars/Sidebar.vue')
+      ),
+      Calendar: defineAsyncComponent(
+        () => import('@/components/calendar/Calendar.vue')
+      ),
     },
   })
 </script>
-
-<style>
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
-</style>

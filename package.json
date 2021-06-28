@@ -15,6 +15,7 @@
     "*.{ts,vue}": "npm run lint"
   },
   "dependencies": {
+    "@heroicons/vue": "^1.0.1",
     "vue": "^3.0.5"
   },
   "devDependencies": {

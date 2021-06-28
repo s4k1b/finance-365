@@ -1,9 +1,12 @@
-export const purge = ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}']
-export const darkMode = false
-export const theme = {
-  extend: {},
+/* eslint-disable no-undef */
+module.exports = {
+  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  darkMode: false, // or 'media' or 'class'
+  theme: {
+    extend: {},
+  },
+  variants: {
+    extend: {},
+  },
+  plugins: [],
 }
-export const variants = {
-  extend: {},
-}
-export const plugins = []
