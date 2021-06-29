@@ -1,9 +1,9 @@
 <template>
   <div class="grid grid-cols-12 grid-flow-col gap-0">
-    <div class="col-span-2 bg-blue-500 h-screen fixed w-72">
+    <div class="col-span-2 bg-blue-500 h-screen">
       <sidebar />
     </div>
-    <div class="col-span-10 h-full w-full ml-72">
+    <div class="col-span-10 h-screen overflow-y-auto">
       <calendar />
     </div>
   </div>

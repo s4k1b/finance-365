@@ -1,32 +1,15 @@
 <template>
-  <div v-if="view === 'grid'" class="grid grid-cols-7 grid-flow-row">
-    <div class="calendar-weekdays">MON</div>
-    <div class="calendar-weekdays">TUE</div>
-    <div class="calendar-weekdays">WED</div>
-    <div class="calendar-weekdays">THU</div>
-    <div class="calendar-weekdays">FRI</div>
-    <div class="calendar-weekdays">SAT</div>
-    <div class="calendar-weekdays">SUN</div>
-  </div>
+  <calendar-weekdays v-if="view === 'grid'" />
   <div
     :class="view === 'grid' ? 'calendar-cells-grid' : 'calendar-cells-timeline'"
   >
-    <div
-      v-if="view === 'timeline'"
-      class="border-2-2 absolute border-dashed border-blue-500 border"
-      style="
-        margin-left: 7px;
-        z-index: -1;
-        margin-top: 20px;
-        height: calc(100% - 150px);
-      "
-    ></div>
     <div
       v-for="i in 31"
       :key="i"
       class="calendar-cell"
       :class="{ 'border-r': i === 31 && view === 'grid' }"
     >
+      <div v-if="(view === 'timeline') & (i !== 31)" class="timeline-dashes" />
       <div class="flex flex-row justify-center items-center">
         <span class="calendar-cell-date">
           {{ i }}
@@ -47,9 +30,14 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineAsyncComponent, defineComponent } from 'vue'
 
   export default defineComponent({
+    components: {
+      CalendarWeekdays: defineAsyncComponent(
+        () => import('./CalendarWeekdays.vue')
+      ),
+    },
     props: {
       view: {
         type: String,
@@ -62,10 +50,7 @@
   })
 </script>
 
-<style lang="scss">
-  .calendar-weekdays {
-    @apply h-6 bg-blue-500 text-white text-center p-1 text-xs;
-  }
+<style lang="scss" scoped>
   .calendar-cells-grid {
     @apply grid grid-rows-5 grid-cols-7 grid-flow-row gap-0 overflow-hidden;
     height: calc(100% - 1.5rem);
@@ -86,10 +71,16 @@
     }
   }
   .calendar-cells-timeline {
-    @apply relative px-10 h-full w-full;
+    @apply px-10 h-full w-full;
 
     .calendar-cell {
-      @apply mb-8 flex flex-col items-start w-full;
+      @apply relative mb-4 flex flex-col items-start w-full;
+
+      .timeline-dashes {
+        @apply absolute border-dashed border-blue-500 border top-8;
+        left: 7px;
+        height: 100%;
+      }
 
       .calendar-cell-date {
         @apply text-sm font-medium my-4 rounded-full h-4 w-4 flex justify-center items-center bg-indigo-300 ring-4 ring-indigo-400 ring-opacity-30;
@@ -99,11 +90,11 @@
       }
 
       .event-list {
-        @apply pr-3 w-full;
+        @apply pr-3 w-8/12;
         margin-left: 26px;
       }
       .event-list-item {
-        @apply h-5 text-white rounded-r-full text-sm px-2 my-1 overflow-hidden;
+        @apply w-max max-w-full text-white rounded-r-full text-sm px-2 my-1;
       }
     }
   }
