@@ -5,6 +5,38 @@
         <h1 class="text-left text-2xl antialiased font-medium">
           January, 2021
         </h1>
+
+        <span>
+          <button
+            class="
+              py-2
+              px-4
+              border border-r-0
+              rounded-l-lg
+              text-xs
+              antialiased
+              font-medium
+            "
+            @click.prevent="activeCalendarView = 'grid'"
+          >
+            Grid View
+          </button>
+          <button
+            class="
+              py-2
+              px-4
+              border
+              rounded-r-lg
+              text-xs
+              antialiased
+              font-medium
+            "
+            @click.prevent="activeCalendarView = 'timeline'"
+          >
+            Timeline View
+          </button>
+        </span>
+
         <span>
           <button class="py-2 px-4 border border-r-0 rounded-l-lg">
             <chevron-left-icon class="h-4 w-4" />
@@ -16,13 +48,13 @@
       </div>
     </div>
     <div class="flex-auto h-full">
-      <calendar-grid-view />
+      <calendar-dates :view="activeCalendarView" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { defineAsyncComponent, defineComponent } from 'vue'
+  import { defineAsyncComponent, defineComponent, ref } from 'vue'
 
   export default defineComponent({
     components: {
@@ -32,11 +64,16 @@
       ChevronRightIcon: defineAsyncComponent(() =>
         import('@heroicons/vue/outline').then((obj) => obj.ChevronRightIcon)
       ),
-      CalendarGridView: defineAsyncComponent(
-        () => import('@/components/calendar/CalendarGridView.vue')
+      CalendarDates: defineAsyncComponent(
+        () => import('@/components/calendar/CalendarDates.vue')
       ),
     },
-    // setup() {
-    // },
+    setup() {
+      const activeCalendarView = ref('grid')
+
+      return {
+        activeCalendarView,
+      }
+    },
   })
 </script>
