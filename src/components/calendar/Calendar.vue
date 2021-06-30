@@ -1,16 +1,21 @@
 <template>
   <div class="calendar-wrapper">
     <div class="calendar-header-wrapper">
-      <calendar-header @change:calendar-view="activeCalendarView = $event" />
+      <calendar-header
+        :title="calendarTitle"
+        @change:calendar-view="activeCalendarView = $event"
+        @change:month-previous="showPreviousMonth"
+        @change:month-next="showNextMonth"
+      />
     </div>
     <div class="calendar-dates-wrapper">
-      <calendar-dates :view="activeCalendarView" />
+      <calendar-dates :view="activeCalendarView" :date="computedDate" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { defineAsyncComponent, defineComponent, ref } from 'vue'
+  import { computed, defineAsyncComponent, defineComponent, ref } from 'vue'
 
   export default defineComponent({
     components: {
@@ -22,8 +27,45 @@
     setup() {
       const activeCalendarView = ref('grid')
 
+      const date = ref(new Date())
+
+      const month = ref(date.value.getMonth())
+      const year = ref(date.value.getFullYear())
+
+      const computedDate = computed(() => new Date(year.value, month.value))
+
+      function showPreviousMonth() {
+        const newMonth = month.value - 1
+        if (newMonth < 0) {
+          month.value = newMonth + 12
+          year.value = year.value - 1
+        } else {
+          month.value = newMonth
+        }
+      }
+      function showNextMonth() {
+        const newMonth = month.value + 1
+        if (newMonth > 11) {
+          month.value = newMonth % 12
+          year.value = year.value + 1
+        } else {
+          month.value = newMonth
+        }
+      }
+
+      const calendarTitle = computed(() =>
+        new Intl.DateTimeFormat('en-US', {
+          month: 'long',
+          year: 'numeric',
+        }).format(computedDate.value)
+      )
+
       return {
         activeCalendarView,
+        calendarTitle,
+        computedDate,
+        showPreviousMonth,
+        showNextMonth,
       }
     },
   })

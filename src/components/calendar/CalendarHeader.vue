@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-row justify-between px-6 py-4">
-    <h1 class="text-left text-2xl antialiased font-medium">January, 2021</h1>
+    <h1 class="w-1/3 text-left text-2xl antialiased font-medium">
+      {{ title }}
+    </h1>
 
     <span>
       <button
@@ -25,12 +27,18 @@
       </button>
     </span>
 
-    <span>
-      <button class="py-2 px-4 border border-r-0 rounded-l-lg">
-        <chevron-left-icon class="h-4 w-4" />
-      </button>
+    <span class="w-1/3 flex flex-row-reverse">
       <button class="py-2 px-4 border rounded-r-lg">
-        <chevron-right-icon class="h-4 w-4" />
+        <chevron-right-icon
+          class="h-4 w-4"
+          @click.prevent="$emit('change:month-next')"
+        />
+      </button>
+      <button
+        class="py-2 px-4 border border-r-0 rounded-l-lg"
+        @click.prevent="$emit('change:month-previous')"
+      >
+        <chevron-left-icon class="h-4 w-4" />
       </button>
     </span>
   </div>
@@ -48,6 +56,16 @@
         import('@heroicons/vue/outline').then((obj) => obj.ChevronRightIcon)
       ),
     },
-    emits: ['change:calendar-view'],
+    props: {
+      title: {
+        type: String,
+        default: 'Timeline',
+      },
+    },
+    emits: [
+      'change:calendar-view',
+      'change:month-previous',
+      'change:month-next',
+    ],
   })
 </script>

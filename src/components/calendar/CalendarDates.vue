@@ -4,12 +4,15 @@
     :class="view === 'grid' ? 'calendar-cells-grid' : 'calendar-cells-timeline'"
   >
     <div
-      v-for="i in 31"
+      v-for="i in daysInMonth"
       :key="i"
       class="calendar-cell"
-      :class="{ 'border-r': i === 31 && view === 'grid' }"
+      :class="{ 'border-r': i === daysInMonth && view === 'grid' }"
     >
-      <div v-if="(view === 'timeline') & (i !== 31)" class="timeline-dashes" />
+      <div
+        v-if="(view === 'timeline') & (i !== daysInMonth)"
+        class="timeline-dashes"
+      />
       <div class="flex flex-row justify-center items-center">
         <span class="calendar-cell-date">
           {{ i }}
@@ -30,7 +33,7 @@
 </template>
 
 <script lang="ts">
-  import { defineAsyncComponent, defineComponent } from 'vue'
+  import { computed, defineAsyncComponent, defineComponent } from 'vue'
 
   export default defineComponent({
     components: {
@@ -43,10 +46,23 @@
         type: String,
         default: 'grid',
       },
+      date: {
+        type: Object,
+        default: new Date(),
+      },
     },
-    // setup() {
+    setup(props) {
+      const month = computed(() => props.date.getMonth())
+      const year = computed(() => props.date.getFullYear())
 
-    // },
+      const daysInMonth = computed(() =>
+        new Date(year.value, month.value + 1, 0).getDate()
+      )
+
+      return {
+        daysInMonth,
+      }
+    },
   })
 </script>
 
