@@ -28,11 +28,11 @@
     </span>
 
     <span class="w-1/3 flex flex-row-reverse">
-      <button class="py-2 px-4 border rounded-r-lg">
-        <chevron-right-icon
-          class="h-4 w-4"
-          @click.prevent="$emit('change:month-next')"
-        />
+      <button
+        class="py-2 px-4 border rounded-r-lg"
+        @click.prevent="$emit('change:month-next')"
+      >
+        <chevron-right-icon class="h-4 w-4" />
       </button>
       <button
         class="py-2 px-4 border border-r-0 rounded-l-lg"

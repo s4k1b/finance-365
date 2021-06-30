@@ -9,13 +9,19 @@
       />
     </div>
     <div class="calendar-dates-wrapper">
-      <calendar-dates :view="activeCalendarView" :date="computedDate" />
+      <calendar-dates :date="computedDate" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { computed, defineAsyncComponent, defineComponent, ref } from 'vue'
+  import {
+    computed,
+    defineAsyncComponent,
+    defineComponent,
+    provide,
+    ref,
+  } from 'vue'
 
   export default defineComponent({
     components: {
@@ -26,6 +32,7 @@
     },
     setup() {
       const activeCalendarView = ref('grid')
+      provide('view', activeCalendarView)
 
       const date = ref(new Date())
 
@@ -37,7 +44,7 @@
       function showPreviousMonth() {
         const newMonth = month.value - 1
         if (newMonth < 0) {
-          month.value = newMonth + 12
+          month.value = 11
           year.value = year.value - 1
         } else {
           month.value = newMonth
@@ -46,7 +53,7 @@
       function showNextMonth() {
         const newMonth = month.value + 1
         if (newMonth > 11) {
-          month.value = newMonth % 12
+          month.value = 0
           year.value = year.value + 1
         } else {
           month.value = newMonth
@@ -76,7 +83,7 @@
     @apply flex flex-col h-full;
 
     .calendar-header-wrapper {
-      @apply flex-auto h-16 fixed top-0 z-50 bg-white;
+      @apply flex-auto h-16 fixed top-0 z-50 bg-white border-b;
       width: calc(100% - 2 * 100vw / 12);
     }
     .calendar-dates-wrapper {

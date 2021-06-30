@@ -7,8 +7,8 @@
         text-center text-3xl
         antialiased
         font-bold
-        text-white
         cursor-pointer
+        text-gray-400
       "
     >
       Finance 365
