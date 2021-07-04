@@ -1,5 +1,13 @@
 <template>
-  <calendar-weekdays v-if="view === 'grid'" />
+  <animate-transition
+    name="slideInDown"
+    animation-enter="slideInDown"
+    animation-leave="slideOutUp"
+    :duration="{ enter: 800, leave: 1 }"
+    mode="out-in"
+  >
+    <calendar-weekdays v-if="view === 'grid'" />
+  </animate-transition>
   <div
     :class="
       view === 'grid'

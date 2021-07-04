@@ -176,7 +176,7 @@
   })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .calendar-wrapper {
     @apply flex flex-col h-full;
 
@@ -187,6 +187,7 @@
     .calendar-dates-wrapper {
       @apply flex-auto mt-16 overflow-y-auto;
       height: calc(100vh - 16px);
+      transition: position 0.3s ease-out;
     }
   }
 </style>
