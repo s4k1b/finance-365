@@ -1,6 +1,15 @@
 <template>
   <div class="flex flex-row justify-between px-6 py-4">
-    <h1 class="w-1/3 text-left text-2xl antialiased font-medium">
+    <h1
+      :key="title"
+      class="
+        w-1/3
+        text-left text-2xl
+        antialiased
+        font-medium
+        animate__animated animate__fadeIn
+      "
+    >
       {{ title }}
     </h1>
 

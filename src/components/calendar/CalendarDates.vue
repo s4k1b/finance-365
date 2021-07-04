@@ -131,10 +131,24 @@
     .calendar-cell {
       @apply flex flex-col border-b border-l;
 
+      -webkit-animation-duration: 0.3s;
+      animation-duration: 0.3s;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+
       .calendar-cell-date {
-        @apply text-center my-1 text-sm font-medium;
+        @apply text-center my-1 text-sm font-medium relative;
         &.current-date {
           @apply h-5 w-5 rounded-full justify-center items-center bg-green-600 text-white;
+        }
+
+        .add-new-button {
+          @apply absolute left-5 rounded-full text-gray-700 font-medium text-xs;
+          bottom: -2px;
+          transition: 0.3s ease-in-out;
+          &:hover {
+            @apply bg-gray-900 text-white;
+          }
         }
       }
 
@@ -153,6 +167,11 @@
     .calendar-cell {
       @apply relative mb-4 flex flex-col items-start w-full;
 
+      -webkit-animation-duration: 0.3s;
+      animation-duration: 0.3s;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+
       .timeline-dashes {
         @apply absolute border-dashed border-blue-500 border top-8;
         left: 7px;
@@ -160,9 +179,18 @@
       }
 
       .calendar-cell-date {
-        @apply text-sm font-medium my-4 rounded-full h-4 w-4 flex justify-center items-center bg-indigo-300 ring-4 ring-indigo-400 ring-opacity-30;
+        @apply text-sm font-medium my-4 rounded-full h-4 w-4 flex justify-center items-center bg-indigo-300 ring-4 ring-indigo-400 ring-opacity-30 relative;
         &.current-date {
           @apply bg-green-600 ring-green-500 text-white;
+        }
+
+        .add-new-button {
+          @apply absolute left-24 rounded-full text-gray-700 font-medium text-xs;
+          transition: 0.3s ease-in-out;
+
+          &:hover {
+            @apply bg-gray-900 text-white;
+          }
         }
       }
 

@@ -1,7 +1,12 @@
 <template>
   <div
     class="calendar-cell"
-    :class="{ 'border-r': tarik === daysInMonth && view === 'grid' }"
+    :class="[
+      tarik === daysInMonth && view === 'grid' ? 'border-r' : '',
+      animationClasses,
+    ]"
+    @mouseenter="calendarCellHovering = true"
+    @mouseleave="calendarCellHovering = false"
   >
     <div
       v-if="(view === 'timeline') & (tarik !== daysInMonth)"
@@ -18,6 +23,14 @@
           'current-date': isCurrentDate,
         }"
       >
+        <animate-transition
+          name="add-new-button"
+          animation-enter="fadeIn"
+          animation-leave="fadeOut"
+          :duration="800"
+        >
+          <add-new-button v-if="calendarCellHovering" />
+        </animate-transition>
         {{ tarik }}
       </span>
       <div v-if="view === 'timeline'" class="custom-date">{{ monthYear }}</div>
@@ -35,9 +48,20 @@
 </template>
 
 <script lang="ts">
-  import { computed, defineComponent, inject } from 'vue'
+  import {
+    computed,
+    defineAsyncComponent,
+    defineComponent,
+    inject,
+    ref,
+  } from 'vue'
 
   export default defineComponent({
+    components: {
+      AddNewButton: defineAsyncComponent(
+        () => import('../buttons/AddNewButton.vue')
+      ),
+    },
     props: {
       date: {
         type: Object,
@@ -49,6 +73,27 @@
       },
     },
     setup(props) {
+      const view = inject('view')
+      const comingFrom = inject('comingFrom')
+      const calendarCellHovering = ref(false)
+
+      const animationClasses = computed(() => {
+        let ans = 'animate__animated animate__'
+
+        if (view.value === 'grid') {
+          if (comingFrom.value === 'next') {
+            ans += 'slideInLeft'
+          } else if (comingFrom.value === 'previous') ans += 'slideInRight'
+          else ans += 'zoomIn'
+        } else {
+          if (comingFrom.value === 'next') {
+            ans += 'slideInDown'
+          } else if (comingFrom.value === 'previous') ans += 'slideInUp'
+          else ans += 'zoomIn'
+        }
+        return ans
+      })
+
       const tarik = computed(() => props.date.getDate())
       const month = computed(() => props.date.getMonth())
       const year = computed(() => props.date.getFullYear())
@@ -78,7 +123,9 @@
       })
 
       return {
-        view: inject('view'),
+        view,
+        calendarCellHovering,
+        animationClasses,
         tarik,
         daysInMonth,
         monthYear,

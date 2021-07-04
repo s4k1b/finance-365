@@ -54,12 +54,12 @@
           const dateId = `${date}-${month}-${year}`
           console.log({ dateId })
           const firstDateElement = document.getElementById(dateId)
-          firstDateElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-          })
+          firstDateElement.scrollIntoView({ block: 'center' })
         })
       }
+
+      const comingFrom = ref('')
+      provide('comingFrom', comingFrom)
 
       async function showPreviousMonth() {
         const newMonth = month.value - 1
@@ -83,6 +83,7 @@
           topReachedOnce = false
           endReachedOnce = true
         }
+        comingFrom.value = 'next'
       }
       async function showNextMonth() {
         const newMonth = month.value + 1
@@ -102,6 +103,7 @@
           endReachedOnce = false
           topReachedOnce = true
         }
+        comingFrom.value = 'previous'
       }
 
       const calendarTitle = computed(() =>
