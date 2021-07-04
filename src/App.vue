@@ -3,7 +3,7 @@
     <div class="col-span-2 bg-gray-100 h-screen">
       <sidebar />
     </div>
-    <div class="col-span-10 h-screen overflow-y-auto">
+    <div class="col-span-10 h-screen">
       <calendar />
     </div>
   </div>

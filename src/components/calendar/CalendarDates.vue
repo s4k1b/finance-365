@@ -57,12 +57,10 @@
         // prefill the calendar cells upto starting week with previous month dates
         let previousMonth = month.value - 1
         let previousYear = year.value
-        console.log({ previousYear, previousMonth })
         if (previousMonth < 0) {
           previousMonth = 11
           previousYear -= 1
         }
-        console.log({ previousYear, previousMonth })
         const daysInPreviousMonth = new Date(
           previousYear,
           previousMonth + 1,
@@ -120,6 +118,7 @@
   .calendar-cells-grid {
     @apply grid grid-cols-7 grid-flow-row gap-0 overflow-hidden;
     height: calc(100% - 1.5rem);
+    transition: 0.3s ease-out;
 
     .calendar-cell {
       @apply flex flex-col border-b border-l;
@@ -141,6 +140,7 @@
   }
   .calendar-cells-timeline {
     @apply px-10 h-full w-full;
+    transition: 0.3s ease-out;
 
     .calendar-cell {
       @apply relative mb-4 flex flex-col items-start w-full;

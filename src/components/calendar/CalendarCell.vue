@@ -7,7 +7,10 @@
       v-if="(view === 'timeline') & (tarik !== daysInMonth)"
       class="timeline-dashes"
     />
-    <div class="flex flex-row justify-center items-center">
+    <div
+      :id="`${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`"
+      class="flex flex-row justify-center items-center"
+    >
       <span
         class="calendar-cell-date"
         :class="{
