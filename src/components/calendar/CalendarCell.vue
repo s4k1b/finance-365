@@ -23,14 +23,6 @@
           'current-date': isCurrentDate,
         }"
       >
-        <animate-transition
-          name="add-new-button"
-          animation-enter="fadeIn"
-          animation-leave="fadeOut"
-          :duration="800"
-        >
-          <add-new-button v-if="calendarCellHovering" />
-        </animate-transition>
         {{ tarik }}
       </span>
       <div v-if="view === 'timeline'" class="custom-date">{{ monthYear }}</div>
@@ -48,20 +40,9 @@
 </template>
 
 <script lang="ts">
-  import {
-    computed,
-    defineAsyncComponent,
-    defineComponent,
-    inject,
-    ref,
-  } from 'vue'
+  import { computed, defineComponent, inject, ref } from 'vue'
 
   export default defineComponent({
-    components: {
-      AddNewButton: defineAsyncComponent(
-        () => import('../buttons/AddNewButton.vue')
-      ),
-    },
     props: {
       date: {
         type: Object,

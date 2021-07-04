@@ -141,15 +141,6 @@
         &.current-date {
           @apply h-5 w-5 rounded-full justify-center items-center bg-green-600 text-white;
         }
-
-        .add-new-button {
-          @apply absolute left-5 rounded-full text-gray-700 font-medium text-xs;
-          bottom: -2px;
-          transition: 0.3s ease-in-out;
-          &:hover {
-            @apply bg-gray-900 text-white;
-          }
-        }
       }
 
       .event-list {
@@ -182,15 +173,6 @@
         @apply text-sm font-medium my-4 rounded-full h-4 w-4 flex justify-center items-center bg-indigo-300 ring-4 ring-indigo-400 ring-opacity-30 relative;
         &.current-date {
           @apply bg-green-600 ring-green-500 text-white;
-        }
-
-        .add-new-button {
-          @apply absolute left-24 rounded-full text-gray-700 font-medium text-xs;
-          transition: 0.3s ease-in-out;
-
-          &:hover {
-            @apply bg-gray-900 text-white;
-          }
         }
       }
 
