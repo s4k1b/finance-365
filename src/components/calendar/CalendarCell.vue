@@ -1,13 +1,19 @@
 <template>
+  <!-- Add new event modal -->
   <div
-    class="calendar-cell"
+    class="calendar-cell cursor-pointer"
     :class="[
       tarik === daysInMonth && view === 'grid' ? 'border-r' : '',
       animationClasses,
     ]"
-    @mouseenter="calendarCellHovering = true"
-    @mouseleave="calendarCellHovering = false"
+    @click.prevent="showAddNewEventModal = true"
   >
+    <add-new-event-modal
+      :show="showAddNewEventModal"
+      :date="date"
+      @close-modal="showAddNewEventModal = false"
+    />
+
     <div
       v-if="(view === 'timeline') & (tarik !== daysInMonth)"
       class="timeline-dashes"
@@ -40,9 +46,20 @@
 </template>
 
 <script lang="ts">
-  import { computed, defineComponent, inject, ref } from 'vue'
+  import {
+    computed,
+    defineAsyncComponent,
+    defineComponent,
+    inject,
+    ref,
+  } from 'vue'
 
   export default defineComponent({
+    components: {
+      AddNewEventModal: defineAsyncComponent(
+        () => import('../modals/AddNewEventModal.vue')
+      ),
+    },
     props: {
       date: {
         type: Object,
@@ -56,7 +73,7 @@
     setup(props) {
       const view = inject('view')
       const comingFrom = inject('comingFrom')
-      const calendarCellHovering = ref(false)
+      const showAddNewEventModal = ref(false)
 
       const animationClasses = computed(() => {
         let ans = 'animate__animated animate__'
@@ -105,8 +122,8 @@
 
       return {
         view,
-        calendarCellHovering,
         animationClasses,
+        showAddNewEventModal,
         tarik,
         daysInMonth,
         monthYear,
