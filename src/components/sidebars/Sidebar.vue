@@ -13,7 +13,10 @@
     >
       Finance 365
     </span>
-    <div class="flex flex-col justify-center h-full">
+    <div
+      class="flex flex-col h-full"
+      :class="{ 'justify-center': !isLoggedIn }"
+    >
       <user />
     </div>
   </div>
@@ -21,10 +24,17 @@
 
 <script lang="ts">
   import { defineAsyncComponent, defineComponent } from 'vue'
+  import { useUser } from '../../composables/user'
 
   export default defineComponent({
     components: {
-      User: defineAsyncComponent(() => import('../User.vue')),
+      User: defineAsyncComponent(() => import('../user/User.vue')),
+    },
+    setup() {
+      const { isLoggedIn } = useUser()
+      return {
+        isLoggedIn,
+      }
     },
   })
 </script>

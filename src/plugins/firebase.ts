@@ -36,7 +36,6 @@ export function useFirebaseAuth(): FirebaseAuth {
   const signInObserver = (store: Store<RootState>) => {
     firebaseAuth.onAuthStateChanged((user) => {
       if (user) {
-        console.log({ user })
         store.dispatch('user$set', user)
       } else {
         console.log('user not signed in')
