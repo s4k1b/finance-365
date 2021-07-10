@@ -15,7 +15,7 @@
     />
 
     <div
-      v-if="(view === 'timeline') & (tarik !== daysInMonth)"
+      v-if="view === 'timeline' && tarik !== daysInMonth"
       class="timeline-dashes"
     />
     <div
