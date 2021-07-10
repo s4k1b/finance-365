@@ -24,7 +24,9 @@
       {{ user.name }}
     </h2>
     <div class="flex flex-row justify-start">
-      <logout-button />
+      <accounts-button @click="$emit('update:settingsMode', 'accounts')" />
+      <contacts-button class="ml-1" />
+      <logout-button class="ml-1" />
     </div>
   </div>
 </template>
@@ -35,10 +37,17 @@
 
   export default defineComponent({
     components: {
+      AccountsButton: defineAsyncComponent(
+        () => import('../buttons/AccountsButton.vue')
+      ),
+      ContactsButton: defineAsyncComponent(
+        () => import('../buttons/ContactsButton.vue')
+      ),
       LogoutButton: defineAsyncComponent(
         () => import('../buttons/LogoutButton.vue')
       ),
     },
+    emits: ['update:settingsMode'],
     setup() {
       const { user } = useUser()
 
