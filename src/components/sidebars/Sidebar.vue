@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-between">
+  <div class="flex flex-col justify-between h-full">
     <span
       class="
         h-16
@@ -13,5 +13,18 @@
     >
       Finance 365
     </span>
+    <div class="flex flex-col justify-center h-full">
+      <user />
+    </div>
   </div>
 </template>
+
+<script lang="ts">
+  import { defineAsyncComponent, defineComponent } from 'vue'
+
+  export default defineComponent({
+    components: {
+      User: defineAsyncComponent(() => import('../User.vue')),
+    },
+  })
+</script>

@@ -11,6 +11,8 @@
 
 <script lang="ts">
   import { defineAsyncComponent, defineComponent } from 'vue'
+  import { useFirebaseAuth } from './plugins/firebase'
+  import { useStore } from './store'
 
   export default defineComponent({
     name: 'App',
@@ -22,6 +24,12 @@
       Calendar: defineAsyncComponent(
         () => import('@/components/calendar/Calendar.vue')
       ),
+    },
+
+    setup() {
+      const store = useStore()
+      const { signInObserver } = useFirebaseAuth()
+      signInObserver(store)
     },
   })
 </script>
