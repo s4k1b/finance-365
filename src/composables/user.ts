@@ -19,7 +19,7 @@ export function useUser(): UserComposable {
   async function logout() {
     await firebaseAuth.signOut()
     // destroy store user
-    store.dispatch('user$set', null)
+    store.dispatch('user', null)
   }
 
   return { user, isLoggedIn, logout }

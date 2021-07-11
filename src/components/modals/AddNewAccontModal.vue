@@ -2,19 +2,41 @@
   <modal size="sm" @close-modal="$emit('close-modal', true)">
     <template #modal-title>New Account</template>
     <div class="grid grid-flow-row gap-4 grid-cols-2 w-full">
-      <simple-input class="col-span-2" />
+      <div class="col-span-2">
+        <simple-input v-model="name" label="Account Name" type="text" />
+      </div>
+
+      <div class="col-span-2">
+        <simple-input v-model="balance" label="Account Balance" type="number" />
+      </div>
+
+      <div class="col-span-2">
+        <simple-input
+          v-model="logoUrl"
+          label="Account Logo Url"
+          type="text"
+          class="col-span-2"
+        />
+      </div>
 
       <regular-button
         button-title="Cancel"
         @click="$emit('close-modal', true)"
       />
-      <regular-button button-title="Done" type="green" />
+      <regular-button
+        button-title="Done"
+        type="green"
+        :is-loader-active="isAccountAdding"
+        @click="addAccount"
+      />
     </div>
   </modal>
 </template>
 
 <script lang="ts">
-  import { defineAsyncComponent, defineComponent } from 'vue'
+  import { defineAsyncComponent, defineComponent, ref } from 'vue'
+  import { useAccounts } from '../../composables/accounts'
+  import { useUser } from '../../composables/user'
 
   export default defineComponent({
     components: {
@@ -27,11 +49,39 @@
       ),
     },
     props: {
-      name: {
+      userDefinedName: {
         type: String,
         default: '',
       },
     },
     emits: ['close-modal'],
+
+    setup(props, { emit }) {
+      const name = ref('')
+      const balance = ref(null)
+      const logoUrl = ref('')
+
+      const { user } = useUser()
+      const { isAccountAdding, addNewAccount } = useAccounts()
+
+      async function addAccount() {
+        await addNewAccount(user.value.id, {
+          name: name.value,
+          balance: balance.value,
+          logoUrl: logoUrl.value,
+        })
+
+        emit('close-modal', true)
+      }
+
+      return {
+        name,
+        balance,
+        logoUrl,
+
+        isAccountAdding,
+        addAccount,
+      }
+    },
   })
 </script>

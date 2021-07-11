@@ -6,10 +6,7 @@ export interface User {
 }
 
 export interface Account {
-  id: number
-  accountNumber: number
-  bankName: string
-  branchName: string
-  balance: number
+  name: string
+  balance?: number
   logoUrl?: string
 }

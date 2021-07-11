@@ -1,7 +1,7 @@
 import { InjectionKey } from 'vue'
 import { createStore, useStore as baseUseStore, Store } from 'vuex'
 import { RootState } from '../typings/store/state'
-import { User } from '../typings/user'
+import { Account, User } from '../typings/user'
 
 export const key: InjectionKey<Store<RootState>> = Symbol()
 
@@ -9,34 +9,45 @@ export const store = createStore<RootState>({
   state() {
     return {
       user: null,
+      accounts: [],
     }
   },
   getters: {
     user(state) {
       return state.user
     },
+    accounts(state) {
+      return state.accounts
+    },
   },
   mutations: {
     user(state, user: User | null) {
       state.user = user
     },
+    accounts(state, accounts: Array<Account>) {
+      state.accounts = accounts
+    },
   },
   actions: {
-    user$set({ commit }, user) {
+    user({ commit }, user) {
       if (user) {
-        const {
-          displayName: name,
-          email,
-          uid: id,
-          photoURL: profilePicUrl,
-        } = user
+        // extract user info
+        const { name, email, id, profilePicUrl } = user
+        // set basic user info
         commit('user', {
           id,
           name,
           email,
           profilePicUrl,
         })
-      } else commit('user', null)
+
+        // extract accounts
+        const { accounts } = user
+        commit('accounts', accounts)
+      } else {
+        commit('user', null)
+        commit('accounts', [])
+      }
     },
   },
 })

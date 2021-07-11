@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/firestore'
 import { Store } from 'vuex'
 import { RootState } from '../typings/store/state'
 
@@ -24,6 +25,7 @@ export function initializeFirebaseAuth(): void {
 type FirebaseAuth = {
   firebaseAuth: firebase.auth.Auth
   signInOptions: Array<string>
+  userUnwatcher: () => void
   signInObserver: (store: Store<RootState>) => void
 }
 export function useFirebaseAuth(): FirebaseAuth {
@@ -33,10 +35,43 @@ export function useFirebaseAuth(): FirebaseAuth {
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
   ]
 
+  let userUnwatcher: () => void = () => {
+    return
+  }
+
   const signInObserver = (store: Store<RootState>) => {
     firebaseAuth.onAuthStateChanged((user) => {
       if (user) {
-        store.dispatch('user$set', user)
+        // save to firestore
+        const { fireStore } = useFireStore()
+
+        const {
+          displayName: name,
+          email,
+          uid: id,
+          photoURL: profilePicUrl,
+        } = user
+
+        try {
+          fireStore
+            .collection('users')
+            .doc(id)
+            .set({ name, email, id, profilePicUrl }, { merge: true })
+        } catch (e) {
+          console.log(e)
+        }
+
+        // attatch listener to user document
+        try {
+          userUnwatcher = fireStore
+            .collection('users')
+            .doc(id)
+            .onSnapshot((doc) => {
+              store.dispatch('user', doc.data())
+            })
+        } catch (e) {
+          console.log(e)
+        }
       } else {
         console.log('user not signed in')
       }
@@ -46,6 +81,20 @@ export function useFirebaseAuth(): FirebaseAuth {
   return {
     firebaseAuth,
     signInOptions,
+
+    userUnwatcher,
     signInObserver,
+  }
+}
+
+type FireStore = {
+  fireStore: firebase.firestore.Firestore
+}
+
+export function useFireStore(): FireStore {
+  const fireStore = firebase.firestore()
+
+  return {
+    fireStore,
   }
 }

@@ -12,15 +12,20 @@
       w-full
     "
     :class="[`text-${type}-500`]"
+    :disabled="isDisabled || isLoaderActive"
   >
-    <span>{{ buttonTitle }}</span>
+    <spinner v-if="isLoaderActive" class="h-5" />
+    <span v-else>{{ buttonTitle }}</span>
   </button>
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineAsyncComponent, defineComponent } from 'vue'
 
   export default defineComponent({
+    components: {
+      Spinner: defineAsyncComponent(() => import('../loaders/Spinner.vue')),
+    },
     props: {
       buttonTitle: {
         type: String,
@@ -29,6 +34,14 @@
       type: {
         type: String,
         default: 'gray',
+      },
+      isLoaderActive: {
+        type: Boolean,
+        default: false,
+      },
+      isDisabled: {
+        type: Boolean,
+        default: false,
       },
     },
   })

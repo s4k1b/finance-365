@@ -2,17 +2,45 @@
   <div class="simple-input-main">
     <div class="simple-input-box">
       <input
-        id="fullName"
-        name="fullName"
-        type="text"
+        v-model.lazy="value"
         class="simple-input"
         placeholder=" "
+        v-bind="$attrs"
       />
-      <label for="fullName" class="simple-label">Full Name</label>
+      <label class="simple-label">{{ label }}</label>
       <div class="simple-input-underline" />
     </div>
   </div>
 </template>
+
+<script lang="ts">
+  import { defineComponent, ref, watch } from 'vue'
+
+  export default defineComponent({
+    inheritAttrs: false,
+    props: {
+      label: {
+        type: String,
+        default: '',
+      },
+      modelValue: {
+        type: [String, Number],
+        default: null,
+      },
+    },
+    emits: ['update:modelValue'],
+    setup(props, { emit }) {
+      const value = ref(props.modelValue)
+
+      watch(value, (n) => {
+        emit('update:modelValue', n)
+      })
+      return {
+        value,
+      }
+    },
+  })
+</script>
 
 <style lang="scss">
   .simple-input-main {

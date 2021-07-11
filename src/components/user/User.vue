@@ -10,7 +10,7 @@
     <user-badge @update:settingsMode="settingsMode = $event" />
   </div>
 
-  <accounts-list v-if="settingsMode !== 'accounts'" />
+  <accounts-list v-if="settingsMode === 'accounts'" />
 </template>
 
 <script lang="ts">
