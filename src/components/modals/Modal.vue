@@ -27,14 +27,8 @@
             <div
               v-show="show"
               ref="modal"
-              class="
-                bg-white
-                rounded-sm
-                text-left
-                overflow-hidden
-                shadow-2xl
-                w-4/5
-              "
+              class="bg-white rounded-sm text-left overflow-hidden shadow-2xl"
+              :class="`modal-${size}`"
               role="dialog"
               aria-modal="true"
               aria-labelledby="modal"
@@ -79,7 +73,23 @@
         type: Boolean,
         default: false,
       },
+      size: {
+        type: String,
+        default: 'sm',
+      },
     },
     emits: ['close-modal'],
   })
 </script>
+
+<style lang="scss" scoped>
+  .modal-sm {
+    @apply w-80;
+  }
+  .modal-lg {
+    @apply w-4/6;
+  }
+  .modal-xl {
+    @apply w-4/5;
+  }
+</style>

@@ -5,12 +5,12 @@
   </div>
   <div
     v-else
-    class="flex flex-row px-4 py-1 border-t-4 border-b-4 transition-all"
+    class="flex flex-row px-3 py-1 border-t-4 border-b-4 transition-all"
   >
     <user-badge @update:settingsMode="settingsMode = $event" />
   </div>
 
-  <accounts-list v-if="settingsMode === 'accounts'" />
+  <accounts-list v-if="settingsMode !== 'accounts'" />
 </template>
 
 <script lang="ts">

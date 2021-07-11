@@ -14,7 +14,7 @@
       Finance 365
     </span>
     <div
-      class="flex flex-col h-full"
+      class="flex flex-col h-full mt-0.5"
       :class="{ 'justify-center': !isLoggedIn }"
     >
       <user />
