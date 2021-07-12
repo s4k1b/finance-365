@@ -23,8 +23,8 @@
             </span>
           </div>
           <div class="flex flex-row px-2">
-            <account-edit-button />
-            <account-delete-button />
+            <account-edit-button :index="id" />
+            <account-delete-button :index="id" />
           </div>
         </div>
       </list-item>

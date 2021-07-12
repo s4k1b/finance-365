@@ -10,7 +10,7 @@
       tag="ul"
       animation-enter="zoomIn"
       animation-leave="zoomOut"
-      class="grid grid-flow-row grid-cols-1 gap-3 w-full px-3 py-2"
+      class="grid grid-flow-row grid-cols-1 gap-2 w-full px-3 py-2"
     >
       <slot />
     </animate-transition-group>
