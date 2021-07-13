@@ -9,6 +9,7 @@
           <img
             class="inline object-contain w-8 h-8 mr-2"
             :src="account.logoUrl"
+            onerror="this.src='http:///i.imgur.com/hfM1J8s.png'"
             alt="Profile image"
           />
           <div class="flex flex-col justify-between w-full">
@@ -18,7 +19,7 @@
             <span class="flex flex-row justify-start">
               <h2 class="text-xs font-medium text-gray-400 mr-3">Balance:</h2>
               <span class="text-xs font-semibold">
-                {{ account.balance }} &#2547;
+                {{ account.balance || 0 }} &#2547;
               </span>
             </span>
           </div>

@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import { computed, Ref, ref } from 'vue'
+import { useToast } from 'vue-toastification'
 import { Store } from 'vuex'
 import { useFireStore } from '../plugins/firebase'
 import { RootState } from '../typings/store/state'
@@ -24,6 +25,7 @@ type AccountsComposable = {
 }
 
 const { fireStore } = useFireStore()
+const toast = useToast()
 
 const isAccountAdding: Ref<boolean> = ref(false)
 
@@ -36,8 +38,9 @@ const addNewAccount: AddNewAccount = async (userId, accountOb) => {
       .update({
         accounts: firebase.firestore.FieldValue.arrayUnion(accountOb),
       })
+    toast.success('Successfully added new account')
   } catch (e) {
-    console.log(e)
+    toast.error(e)
   }
   isAccountAdding.value = false
 }
@@ -67,8 +70,9 @@ const updateAccount: UpdateAccount = async (
         { merge: true }
       )
     }
+    toast.success('Successfully updated account')
   } catch (e) {
-    console.log(e)
+    toast.error(e)
   }
   isAccountUpdating.value = false
 }
@@ -94,8 +98,9 @@ const deleteAccount: DeleteAccount = async (userId, accountIndex) => {
         { merge: true }
       )
     }
+    toast.success('Successfully deleted account')
   } catch (e) {
-    console.log(e)
+    toast.error(e)
   }
   isAccountDeleting.value = false
 }

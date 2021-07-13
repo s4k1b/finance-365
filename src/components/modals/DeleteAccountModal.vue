@@ -1,9 +1,10 @@
 <template>
   <modal size="sm" @close-modal="$emit('close-modal', true)">
-    <template #modal-title>Edit Account</template>
+    <template #modal-title>Delete Account</template>
     <div class="grid grid-flow-row gap-4 grid-cols-2 w-full">
-      <span class="col-span-2"
-        >Do you want to delete the account <strong>{{ accountIndex }}</strong>
+      <span class="col-span-2 text-center"
+        >Do you want to delete the account <br />
+        <strong>{{ accountName }}</strong>
         ?
       </span>
       <regular-button
@@ -21,7 +22,7 @@
 </template>
 
 <script lang="ts">
-  import { defineAsyncComponent, defineComponent } from 'vue'
+  import { computed, defineAsyncComponent, defineComponent } from 'vue'
   import { useAccounts } from '../../composables/accounts'
   import { useUser } from '../../composables/user'
   import { useStore } from '../../store'
@@ -44,7 +45,11 @@
     setup(props, { emit }) {
       const { user } = useUser()
       const store = useStore()
-      const { isAccountDeleting, deleteAccount } = useAccounts(store)
+      const { isAccountDeleting, deleteAccount, accounts } = useAccounts(store)
+
+      const accountName = computed(
+        () => accounts.value[props.accountIndex].name
+      )
 
       async function deleteBankAccount() {
         await deleteAccount(user.value.id, props.accountIndex)
@@ -55,6 +60,7 @@
       return {
         isAccountDeleting,
         deleteBankAccount,
+        accountName,
       }
     },
   })

@@ -14,15 +14,22 @@
         class="fixed z-50 inset-0 overflow-y-auto bg-black bg-opacity-30"
       >
         <div
-          class="flex items-start justify-center min-h-screen pt-16 text-center"
+          class="
+            flex
+            items-center
+            justify-center
+            min-h-screen
+            pt-16
+            text-center
+          "
         >
           <transition
             enter-active-class="transition ease-out duration-300 transform "
-            enter-from-class="opacity-0 translate-y-10 scale-95"
-            enter-to-class="opacity-100 translate-y-0 scale-100"
-            leave-active-class="ease-in duration-200"
-            leave-from-class="opacity-100 translate-y-0 scale-100"
-            leave-to-class="opacity-0 translate-y-10 translate-y-0 scale-95"
+            enter-from-class="opacity-0 -translate-x-10 scale-95"
+            enter-to-class="opacity-100 translate-x-0 scale-100"
+            leave-active-class="transition ease-in duration-200 transform"
+            leave-from-class="opacity-100 translate-x-0 scale-100"
+            leave-to-class="opacity-0 translate-x-10 scale-95"
           >
             <div
               v-show="show"
