@@ -24,8 +24,15 @@
       {{ user.name }}
     </h2>
     <div class="flex flex-row justify-start">
-      <accounts-button @click="$emit('update:settingsMode', 'accounts')" />
-      <contacts-button class="ml-1" />
+      <accounts-button
+        :class="{ 'bg-blue-200': activeMode === 'accounts' }"
+        @click="$emit('update:settingsMode', 'accounts')"
+      />
+      <contacts-button
+        class="ml-1"
+        :class="{ 'bg-blue-200': activeMode === 'contacts' }"
+        @click="$emit('update:settingsMode', 'contacts')"
+      />
       <logout-button class="ml-1" />
     </div>
   </div>
@@ -46,6 +53,12 @@
       LogoutButton: defineAsyncComponent(
         () => import('../buttons/LogoutButton.vue')
       ),
+    },
+    props: {
+      activeMode: {
+        type: String,
+        default: '',
+      },
     },
     emits: ['update:settingsMode'],
     setup() {

@@ -53,7 +53,7 @@
         () => import('../buttons/AccountEditButton.vue')
       ),
       AddNewAccountModal: defineAsyncComponent(
-        () => import('../modals/AddNewAccontModal.vue')
+        () => import('../modals/AddNewAccountModal.vue')
       ),
     },
 

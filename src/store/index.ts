@@ -10,6 +10,7 @@ export const store = createStore<RootState>({
     return {
       user: null,
       accounts: [],
+      contacts: [],
     }
   },
   getters: {
@@ -19,6 +20,9 @@ export const store = createStore<RootState>({
     accounts(state) {
       return state.accounts
     },
+    contacts(state) {
+      return state.contacts
+    },
   },
   mutations: {
     user(state, user: User | null) {
@@ -26,6 +30,9 @@ export const store = createStore<RootState>({
     },
     accounts(state, accounts: Array<Account>) {
       state.accounts = accounts
+    },
+    contacts(state, contacts: Array<User>) {
+      state.contacts = contacts
     },
   },
   actions: {
@@ -42,11 +49,13 @@ export const store = createStore<RootState>({
         })
 
         // extract accounts
-        const { accounts } = user
+        const { accounts, contacts } = user
         commit('accounts', accounts)
+        commit('contacts', contacts)
       } else {
         commit('user', null)
         commit('accounts', [])
+        commit('contacts', [])
       }
     },
   },

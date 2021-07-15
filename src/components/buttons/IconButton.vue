@@ -7,7 +7,7 @@
       text-gray-500
       bg-gray-200
       transition-all
-      hover:bg-gray-100 hover:text-gray-400
+      hover:bg-blue-100 hover:border-blue-200
     "
     :title="buttonTitle"
   >

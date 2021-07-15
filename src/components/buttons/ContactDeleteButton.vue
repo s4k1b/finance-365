@@ -1,15 +1,15 @@
 <template>
   <icon-button
-    button-title="Delete Account"
-    @click="showDeleteAccountModal = true"
+    button-title="Delete Contact"
+    @click="showDeleteContactModal = true"
   >
     <delete-icon class="w-5 h-5" />
   </icon-button>
 
-  <delete-account-modal
-    :show="showDeleteAccountModal"
-    :account-index="index"
-    @close-modal="showDeleteAccountModal = false"
+  <delete-contact-modal
+    :show="showDeleteContactModal"
+    :contact-index="index"
+    @close-modal="showDeleteContactModal = false"
   />
 </template>
 
@@ -22,8 +22,8 @@
       DeleteIcon: defineAsyncComponent(() =>
         import('@heroicons/vue/outline').then((obj) => obj.TrashIcon)
       ),
-      DeleteAccountModal: defineAsyncComponent(
-        () => import('../modals/DeleteAccountModal.vue')
+      DeleteContactModal: defineAsyncComponent(
+        () => import('../modals/DeleteContactModal.vue')
       ),
     },
     props: {
@@ -34,10 +34,10 @@
     },
 
     setup() {
-      const showDeleteAccountModal = ref(false)
+      const showDeleteContactModal = ref(false)
 
       return {
-        showDeleteAccountModal,
+        showDeleteContactModal,
       }
     },
   })

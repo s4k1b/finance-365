@@ -7,10 +7,21 @@
     v-else
     class="flex flex-row px-3 py-1 border-t-4 border-b-4 transition-all"
   >
-    <user-badge @update:settingsMode="settingsMode = $event" />
+    <user-badge
+      :active-mode="activeSettings"
+      @update:settingsMode="settingsMode = `${$event}-${new Date()}`"
+    />
   </div>
 
-  <accounts-list v-if="settingsMode === 'accounts'" />
+  <animate-transition
+    animation-enter="fadeInLeft"
+    animation-leave="fadeOutRight"
+    mode="out-in"
+    :duration="{ enter: 800, leave: 100 }"
+  >
+    <accounts-list v-if="activeSettings === 'accounts'" />
+    <contacts-list v-else-if="activeSettings === 'contacts'" />
+  </animate-transition>
 </template>
 
 <script lang="ts">
@@ -28,6 +39,10 @@
     components: {
       UserBadge: defineAsyncComponent(() => import('./UserBadge.vue')),
       AccountsList: defineAsyncComponent(() => import('./AccountsList.vue')),
+      ContactsList: defineAsyncComponent(() => import('./ContactsList.vue')),
+      AnimateTransition: defineAsyncComponent(
+        () => import('../transitions/AnimateTransition.vue')
+      ),
     },
     setup() {
       const { startUi } = useFirebaseUi()
@@ -35,6 +50,13 @@
       const { isLoggedIn } = useUser()
 
       const settingsMode = ref('')
+      const activeSettings = ref('')
+
+      watch(settingsMode, (n) => {
+        const value = n.split('-')[0]
+        if (value === activeSettings.value) activeSettings.value = ''
+        else activeSettings.value = value
+      })
 
       watch(
         isLoggedIn,
@@ -53,6 +75,7 @@
       return {
         isLoggedIn,
         settingsMode,
+        activeSettings,
       }
     },
   })

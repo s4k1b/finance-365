@@ -8,9 +8,10 @@
     </div>
     <animate-transition-group
       tag="ul"
-      animation-enter="zoomIn"
-      animation-leave="zoomOut"
+      animation-enter="slideInDown"
+      animation-leave="slideOutDown"
       class="grid grid-flow-row grid-cols-1 gap-2 w-full px-3 py-2"
+      appear
     >
       <slot />
     </animate-transition-group>
