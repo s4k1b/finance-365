@@ -10,9 +10,10 @@
       rounded
       items-center
       w-full
+      disabled:opacity-50 disabled:cursor-not-allowed
     "
     :class="[`text-${type}-500`]"
-    :disabled="isDisabled || isLoaderActive"
+    :disabled="isDisabled || isLoaderActive ? true : null"
   >
     <spinner v-if="isLoaderActive" class="h-5" />
     <span v-else>{{ buttonTitle }}</span>
