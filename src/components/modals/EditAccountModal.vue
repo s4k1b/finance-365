@@ -18,18 +18,21 @@
           class="col-span-2"
         />
       </div>
-
+    </div>
+    <template #modal-footer-left-controls>
       <regular-button
         button-title="Cancel"
         @click="$emit('close-modal', true)"
       />
+    </template>
+    <template #modal-footer-right-controls>
       <regular-button
         button-title="Update"
         type="green"
         :is-loader-active="isAccountUpdating"
         @click="updateBankAccount"
       />
-    </div>
+    </template>
   </modal>
 </template>
 

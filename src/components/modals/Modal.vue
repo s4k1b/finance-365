@@ -58,6 +58,17 @@
               <div class="relative p-4">
                 <slot />
               </div>
+
+              <div class="bottom-0 border-t px-4 py-2">
+                <div class="flex flex-row justify-between align-middle">
+                  <div class="flex flex-row w-1/2 pr-2">
+                    <slot name="modal-footer-left-controls" />
+                  </div>
+                  <div class="flex flex-row w-1/2 pl-2">
+                    <slot name="modal-footer-right-controls" />
+                  </div>
+                </div>
+              </div>
             </div>
           </transition>
         </div>

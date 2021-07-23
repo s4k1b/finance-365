@@ -9,18 +9,21 @@
       <div class="col-span-2">
         <simple-input v-model="email" label="Email Address" type="email" />
       </div>
-
+    </div>
+    <template #modal-footer-left-controls>
       <regular-button
         button-title="Cancel"
         @click="$emit('close-modal', true)"
       />
+    </template>
+    <template #modal-footer-right-controls>
       <regular-button
         button-title="Done"
         type="green"
         :is-loader-active="isContactAdding"
         @click="addContact"
       />
-    </div>
+    </template>
   </modal>
 </template>
 

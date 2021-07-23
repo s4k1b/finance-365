@@ -1,7 +1,6 @@
 <template>
   <modal @close-modal="$emit('close-modal', true)">
     <template #modal-title> Add New Event </template>
-    <div>{{ date }}</div>
   </modal>
 </template>
 

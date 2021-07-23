@@ -7,17 +7,21 @@
         <strong>{{ contactName }}</strong>
         ?
       </span>
+    </div>
+    <template #modal-footer-left-controls>
       <regular-button
         button-title="Cancel"
         @click="$emit('close-modal', true)"
       />
+    </template>
+    <template #modal-footer-right-controls>
       <regular-button
         button-title="Delete"
         type="red"
         :is-loader-active="isContactDeleting"
         @click="deleteUserContact"
       />
-    </div>
+    </template>
   </modal>
 </template>
 
