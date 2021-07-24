@@ -4,12 +4,23 @@ module.exports = {
     enabled: true,
     content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
     options: {
-      safelist: ['grid-cols-4', 'gap-4', 'text-green-500', 'text-gray-500'],
+      safelist: [
+        'grid-cols-4',
+        'gap-4',
+        'text-green-500',
+        'text-gray-500',
+        'text-red-500',
+      ],
     },
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      transitionProperty: {
+        height: 'height',
+        spacing: 'margin, padding',
+      },
+    },
   },
   variants: {
     extend: {

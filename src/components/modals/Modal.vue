@@ -13,16 +13,7 @@
         ref="modal-backdrop"
         class="fixed z-50 inset-0 overflow-y-auto bg-black bg-opacity-30"
       >
-        <div
-          class="
-            flex
-            items-center
-            justify-center
-            min-h-screen
-            pt-16
-            text-center
-          "
-        >
+        <div class="flex items-center justify-center min-h-screen text-center">
           <transition
             enter-active-class="transition ease-out duration-300 transform "
             enter-from-class="opacity-0 -translate-x-10 scale-95"
@@ -55,7 +46,7 @@
                 </div>
               </div>
 
-              <div class="relative p-4">
+              <div class="relative px-4 py-8 transition">
                 <slot />
               </div>
 

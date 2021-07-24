@@ -2,7 +2,19 @@
   <modal size="lg" @close-modal="$emit('close-modal', true)">
     <template #modal-title> Add New Event </template>
 
-    <step-1 v-if="activeStep === 1" />
+    <div class="flex flex-col justify-center h-52 min-h-full">
+      <transition
+        enter-active-class="transition ease-out delay-200 duration-200 transform"
+        enter-from-class="opacity-0 translate-x-10 scale-95"
+        enter-to-class="opacity-100 translate-x-0 scale-100"
+        leave-active-class="transition ease-in duration-200 transform"
+        leave-from-class="opacity-100 translate-x-0 scale-100"
+        leave-to-class="opacity-0 -translate-x-10 scale-95"
+      >
+        <step-1 v-if="activeStep === 1" />
+        <step-2 v-else-if="activeStep === 2" />
+      </transition>
+    </div>
 
     <template #modal-footer-left-controls>
       <buttons :count="4">
@@ -15,7 +27,7 @@
     <template #modal-footer-right-controls>
       <buttons :count="4">
         <regular-button
-          class="col-start-3"
+          class="col-start-3 ease"
           button-title="Previous"
           :is-disabled="activeStep === 1"
           @click="goToPreviousStep"
@@ -46,6 +58,7 @@
     components: {
       Modal: defineAsyncComponent(() => import('./Modal.vue')),
       Step1: defineAsyncComponent(() => import('../events/create/Step1.vue')),
+      Step2: defineAsyncComponent(() => import('../events/create/Step2.vue')),
       Buttons: defineAsyncComponent(() => import('../buttons/Buttons.vue')),
       RegularButton: defineAsyncComponent(
         () => import('../buttons/RegularButton.vue')
