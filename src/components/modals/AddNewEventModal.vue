@@ -21,8 +21,16 @@
         leave-from-class="opacity-100 translate-x-0 scale-100"
         leave-to-class="opacity-0 -translate-x-10 scale-95"
       >
-        <step-1 v-if="activeStep === 1" />
-        <step-2 v-else-if="activeStep === 2" />
+        <step-1
+          v-if="activeStep === 1"
+          v-model:occuringDate="event.occuringDate"
+          v-model:type="event.type"
+        />
+        <step-2
+          v-else-if="activeStep === 2"
+          v-model="eventBody"
+          :type="event.type"
+        />
       </transition>
     </div>
 
@@ -62,7 +70,7 @@
 </template>
 
 <script lang="ts">
-  import { defineAsyncComponent, defineComponent, provide, ref } from 'vue'
+  import { defineAsyncComponent, defineComponent, ref } from 'vue'
 
   export default defineComponent({
     components: {
@@ -85,7 +93,12 @@
     setup(props) {
       const stepCount = ref(2)
       const activeStep = ref(1)
-      provide('providedDate', props.date)
+
+      const event = ref({
+        type: '',
+        occuringDate: props.date.toLocaleDateString('fr-CA'),
+      })
+      const eventBody = ref({})
 
       function goToPreviousStep() {
         activeStep.value = Math.max(1, activeStep.value - 1)
@@ -100,6 +113,8 @@
       return {
         stepCount,
         activeStep,
+        event,
+        eventBody,
         goToPreviousStep,
         goToNextStep,
         done,

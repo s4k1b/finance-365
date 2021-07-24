@@ -10,7 +10,7 @@
             class="inline object-contain w-8 h-8 mr-2"
             :src="account.logoUrl"
             onerror="this.src='http:///i.imgur.com/hfM1J8s.png'"
-            alt="Profile image"
+            alt=""
           />
           <div class="flex flex-col justify-between w-full">
             <h2 class="text-sm font-medium text-gray-500">

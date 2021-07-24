@@ -36,11 +36,17 @@
   import { useEvents } from '../../composables/events'
 
   export default defineComponent({
+    props: {
+      modelValue: {
+        type: String,
+        default: '',
+      },
+    },
     emits: ['update:modelValue'],
     setup(props, { emit }) {
       const { eventTypes } = useEvents()
 
-      const selectedType = ref('')
+      const selectedType = ref(props.modelValue)
       watch(selectedType, (n) => {
         emit('update:modelValue', n)
       })
