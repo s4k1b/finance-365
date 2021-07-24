@@ -2,7 +2,17 @@
   <modal size="lg" @close-modal="$emit('close-modal', true)">
     <template #modal-title> Add New Event </template>
 
-    <div class="flex flex-col justify-center h-52 min-h-full">
+    <div
+      class="
+        relative
+        min-h-full
+        transition-height
+        duration-300
+        ease-in-out
+        mb-4
+      "
+      :style="{ height: activeStep === 1 ? '14rem' : '10rem' }"
+    >
       <transition
         enter-active-class="transition ease-out delay-200 duration-200 transform"
         enter-from-class="opacity-0 translate-x-10 scale-95"
