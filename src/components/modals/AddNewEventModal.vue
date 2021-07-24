@@ -2,7 +2,7 @@
   <modal size="lg" @close-modal="$emit('close-modal', true)">
     <template #modal-title> Add New Event </template>
 
-    step {{ activeStep }}
+    <step-1 v-if="activeStep === 1" />
 
     <template #modal-footer-left-controls>
       <buttons :count="4">
@@ -40,11 +40,12 @@
 </template>
 
 <script lang="ts">
-  import { defineAsyncComponent, defineComponent, ref } from 'vue'
+  import { defineAsyncComponent, defineComponent, provide, ref } from 'vue'
 
   export default defineComponent({
     components: {
       Modal: defineAsyncComponent(() => import('./Modal.vue')),
+      Step1: defineAsyncComponent(() => import('../events/create/Step1.vue')),
       Buttons: defineAsyncComponent(() => import('../buttons/Buttons.vue')),
       RegularButton: defineAsyncComponent(
         () => import('../buttons/RegularButton.vue')
@@ -58,9 +59,10 @@
     },
     emits: ['close-modal'],
 
-    setup() {
+    setup(props) {
       const stepCount = ref(2)
       const activeStep = ref(1)
+      provide('providedDate', props.date)
 
       function goToPreviousStep() {
         activeStep.value = Math.max(1, activeStep.value - 1)
@@ -68,12 +70,16 @@
       function goToNextStep() {
         activeStep.value = Math.min(stepCount.value, activeStep.value + 1)
       }
+      function done() {
+        console.log('done')
+      }
 
       return {
         stepCount,
         activeStep,
         goToPreviousStep,
         goToNextStep,
+        done,
       }
     },
   })

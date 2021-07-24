@@ -34,7 +34,7 @@
             <div
               v-show="show"
               ref="modal"
-              class="bg-white rounded-sm text-left overflow-hidden shadow-2xl"
+              class="bg-white rounded-sm text-left shadow-2xl"
               :class="`modal-${size}`"
               role="dialog"
               aria-modal="true"
