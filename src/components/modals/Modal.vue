@@ -10,7 +10,6 @@
     >
       <div
         v-show="show"
-        ref="modal-backdrop"
         class="fixed z-50 inset-0 overflow-y-auto bg-black bg-opacity-30"
       >
         <div class="flex items-center justify-center min-h-screen text-center">
@@ -24,7 +23,6 @@
           >
             <div
               v-show="show"
-              ref="modal"
               class="bg-white rounded-sm text-left shadow-2xl"
               :class="`modal-${size}`"
               role="dialog"
@@ -46,7 +44,7 @@
                 </div>
               </div>
 
-              <div class="px-4 py-8">
+              <div class="px-4 py-8 overflow-y-auto">
                 <slot />
               </div>
 

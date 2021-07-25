@@ -11,7 +11,7 @@
         ease-in-out
         mb-4
       "
-      :style="{ height: activeStep === 1 ? '14rem' : '10rem' }"
+      :style="{ height: stepHeight }"
     >
       <transition
         enter-active-class="transition ease-out delay-200 duration-200 transform"
@@ -23,11 +23,13 @@
       >
         <step-1
           v-if="activeStep === 1"
+          ref="step"
           v-model:occuringDate="event.occuringDate"
           v-model:type="event.type"
         />
         <step-2
           v-else-if="activeStep === 2"
+          ref="step"
           v-model="eventBody"
           :type="event.type"
         />
@@ -70,7 +72,7 @@
 </template>
 
 <script lang="ts">
-  import { defineAsyncComponent, defineComponent, ref } from 'vue'
+  import { defineAsyncComponent, defineComponent, ref, watch } from 'vue'
 
   export default defineComponent({
     components: {
@@ -94,11 +96,32 @@
       const stepCount = ref(2)
       const activeStep = ref(1)
 
+      const step = ref(null)
+
+      watch(step, (n) => {
+        if (n) {
+          // dealy for animation to finish
+          setTimeout(() => {
+            calcStepHeight(n.$el)
+          }, 210)
+        }
+      })
+
+      const stepHeight = ref('241px')
+
       const event = ref({
         type: '',
         occuringDate: props.date.toLocaleDateString('fr-CA'),
       })
       const eventBody = ref({})
+
+      function calcStepHeight(el) {
+        const maximumHeight = window.innerHeight - 45 - 32 - 57 - 60 // window height - modal titlebar - modal body padding - modal footer - 60
+        stepHeight.value = `${Math.min(
+          maximumHeight,
+          el.clientHeight || 241
+        )}px`
+      }
 
       function goToPreviousStep() {
         activeStep.value = Math.max(1, activeStep.value - 1)
@@ -113,8 +136,11 @@
       return {
         stepCount,
         activeStep,
+        step,
+        stepHeight,
         event,
         eventBody,
+        calcStepHeight,
         goToPreviousStep,
         goToNextStep,
         done,

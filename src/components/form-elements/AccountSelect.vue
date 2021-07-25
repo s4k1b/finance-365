@@ -12,15 +12,27 @@
       {{ label }}
     </label>
     <div
-      class="grid grid-flow-col gap-4 grid-cols-10 justify-items-stretch mt-2"
+      class="
+        grid grid-flow-row
+        auto-rows-max
+        gap-4
+        grid-cols-10
+        justify-items-stretch
+        mt-2
+      "
     >
       <div
-        v-for="(account, id) in accounts"
+        v-for="(account, id) in [
+          ...accounts,
+          ...accounts,
+          ...accounts,
+          ...accounts,
+        ]"
         :key="id"
         class="account-select-item"
-        :class="[selectedAccount === id ? 'selected' : '']"
+        :class="[selectedAccount.name === account.name ? 'selected' : '']"
         :title="account.name"
-        @click="selectedAccount = id"
+        @click="selectedAccount = account"
       >
         <img
           class="w-1/2 h-1/3"
@@ -49,15 +61,16 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, watch } from 'vue'
+  import { defineComponent, Ref, ref, watch } from 'vue'
   import { useStore } from '../../store'
   import { useAccounts } from '../../composables/accounts'
+  import { Account } from '../../typings/user'
 
   export default defineComponent({
     props: {
       modelValue: {
-        type: String,
-        default: '',
+        type: Object as Account,
+        default: () => ({ name: '' }),
       },
       label: {
         type: String,
@@ -69,7 +82,7 @@
       const store = useStore()
       const { accounts } = useAccounts(store)
 
-      const selectedAccount = ref(props.modelValue)
+      const selectedAccount: Ref<Account> = ref(props.modelValue)
       watch(selectedAccount, (n) => {
         emit('update:modelValue', n)
       })
