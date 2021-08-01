@@ -1,5 +1,14 @@
 import { Ref, ref } from 'vue'
+import { useToast } from 'vue-toastification'
+import { Store } from 'vuex'
+import { useFireStore } from '../plugins/firebase'
+import { FinancialEvent } from '../typings/event'
+import { RootState } from '../typings/store/state'
 
+type AddNewEvent = (
+  userId: string,
+  eventOb: Omit<Omit<Omit<FinancialEvent, 'createdAt'>, 'ownerId'>, 'id'>
+) => void
 export interface EventType {
   type: string
   title: string
@@ -7,6 +16,8 @@ export interface EventType {
 }
 export interface EventsComposable {
   eventTypes: Ref<Array<EventType>>
+  isEventAdding: Ref<boolean>
+  addNewEvent: AddNewEvent
 }
 
 const eventTypes = ref([
@@ -61,8 +72,31 @@ const eventTypes = ref([
   },
 ])
 
-export function useEvents(): EventsComposable {
+const { fireStore } = useFireStore()
+const toast = useToast()
+
+const isEventAdding: Ref<boolean> = ref(false)
+const addNewEvent: AddNewEvent = async (userId, eventOb) => {
+  isEventAdding.value = true
+  try {
+    const newEventRef = await fireStore.collection('events').doc()
+    await newEventRef.set({
+      id: newEventRef.id,
+      ownerId: userId,
+      createdAt: new Date(),
+      ...eventOb,
+    })
+    toast.success('Successfully created event')
+  } catch (e) {
+    toast.error(e)
+  }
+  isEventAdding.value = false
+}
+
+export function useEvents(store: Store<RootState>): EventsComposable {
   return {
     eventTypes,
+    isEventAdding,
+    addNewEvent,
   }
 }

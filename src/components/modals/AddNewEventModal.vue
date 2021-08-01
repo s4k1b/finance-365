@@ -64,6 +64,7 @@
           class="col-start-4"
           button-title="Done"
           type="green"
+          :is-loader-active="isEventAdding"
           @click="done"
         />
       </buttons>
@@ -73,6 +74,8 @@
 
 <script lang="ts">
   import { defineAsyncComponent, defineComponent, ref, watch } from 'vue'
+  import { useEvents } from '../../composables/events'
+  import { useUser } from '../../composables/user'
 
   export default defineComponent({
     components: {
@@ -92,7 +95,7 @@
     },
     emits: ['close-modal'],
 
-    setup(props) {
+    setup(props, { emit }) {
       const stepCount = ref(2)
       const activeStep = ref(1)
 
@@ -103,7 +106,7 @@
           // dealy for animation to finish
           setTimeout(() => {
             calcStepHeight(n.$el)
-          }, 210)
+          }, 300)
         }
       })
 
@@ -123,14 +126,21 @@
         )}px`
       }
 
+      const { user } = useUser()
       function goToPreviousStep() {
         activeStep.value = Math.max(1, activeStep.value - 1)
       }
       function goToNextStep() {
         activeStep.value = Math.min(stepCount.value, activeStep.value + 1)
       }
-      function done() {
-        console.log('done')
+
+      const { isEventAdding, addNewEvent } = useEvents()
+      async function done() {
+        await addNewEvent(user.value.id, {
+          ...event.value,
+          ...eventBody.value,
+        })
+        emit('close-modal', true)
       }
 
       return {
@@ -143,6 +153,7 @@
         calcStepHeight,
         goToPreviousStep,
         goToNextStep,
+        isEventAdding,
         done,
       }
     },

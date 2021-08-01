@@ -5,6 +5,7 @@ export interface Event {
   type: string
   occuringDate: string
   createdAt: string
+  ownerId: string
 }
 
 export interface Transaction {
@@ -94,3 +95,12 @@ export interface SharedCost extends Event {
     accouableForAmount: number
   }>
 }
+
+export type FinancialEvent =
+  | SalaryIn
+  | CashIn
+  | Payment
+  | Purchase
+  | LendIn
+  | LendOut
+  | SharedCost
