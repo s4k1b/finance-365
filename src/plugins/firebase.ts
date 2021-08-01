@@ -40,7 +40,7 @@ export function useFirebaseAuth(): FirebaseAuth {
   }
 
   const signInObserver = (store: Store<RootState>) => {
-    firebaseAuth.onAuthStateChanged((user) => {
+    firebaseAuth.onAuthStateChanged(async (user) => {
       if (user) {
         // save to firestore
         const { fireStore } = useFireStore()
@@ -53,10 +53,22 @@ export function useFirebaseAuth(): FirebaseAuth {
         } = user
 
         try {
-          fireStore
-            .collection('users')
-            .doc(id)
-            .set({ name, email, id, profilePicUrl }, { merge: true })
+          const docRef = fireStore.collection('users').doc(id)
+          const existingUserDoc = await docRef.get()
+          if (!existingUserDoc.exists) {
+            // if user does not exist in data base then, create a new user with initial data
+            const accounts = [
+              {
+                balance: 0,
+                logoUrl: 'https://img.icons8.com/fluency/48/000000/cash.png',
+                // https://www.dutchbanglabank.com/img/mlogo.png
+                // https://www.dutchbanglabank.com/img/logo-footer.png
+                name: 'Cash',
+                isCashAccount: true,
+              },
+            ]
+            docRef.set({ name, email, id, profilePicUrl, accounts })
+          }
         } catch (e) {
           console.log(e)
         }

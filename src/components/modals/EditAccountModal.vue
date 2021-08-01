@@ -7,7 +7,11 @@
       </div>
 
       <div class="col-span-2">
-        <simple-input v-model="balance" label="Account Balance" type="number" />
+        <simple-input
+          v-model.number="balance"
+          label="Account Balance"
+          type="number"
+        />
       </div>
 
       <div class="col-span-2">

@@ -11,11 +11,7 @@ export interface Transaction {
   id: number
   from?: string | Account | User
   to?: string | Account | User
-  method: 'online' | 'cash' | 'hybrid'
-  amount: {
-    online?: number
-    cash?: number
-  }
+  amount: number
 }
 
 export type PurchasableGood =

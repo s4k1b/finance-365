@@ -8,6 +8,16 @@
       />
     </div>
     <account-select v-model="salaryInEvent.to" label="Credited to" />
+    <div class="w-1/3 mb-6">
+      <simple-input
+        v-model.number="salaryInEvent.amount"
+        label="Credited Amount"
+        type="number"
+      />
+    </div>
+    <div class="w-1/3 mb-6">
+      <simple-input v-model="salaryInEvent.from" label="From" />
+    </div>
   </div>
 </template>
 

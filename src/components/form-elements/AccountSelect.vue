@@ -1,5 +1,5 @@
 <template>
-  <div class="account-select-box">
+  <div class="account-select-box mb-6">
     <label
       class="
         text-gray-600
@@ -22,12 +22,7 @@
       "
     >
       <div
-        v-for="(account, id) in [
-          ...accounts,
-          ...accounts,
-          ...accounts,
-          ...accounts,
-        ]"
+        v-for="(account, id) in accounts"
         :key="id"
         class="account-select-item"
         :class="[selectedAccount.name === account.name ? 'selected' : '']"
@@ -35,7 +30,7 @@
         @click="selectedAccount = account"
       >
         <img
-          class="w-1/2 h-1/3"
+          class="w-1/2 h-1/3 object-contain"
           :src="account.logoUrl"
           onerror="this.src='http:///i.imgur.com/hfM1J8s.png'"
           alt=""
