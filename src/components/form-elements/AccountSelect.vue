@@ -1,16 +1,6 @@
 <template>
   <div class="account-select-box mb-6">
-    <label
-      class="
-        text-gray-600
-        font-medium
-        pointer-events-none
-        px-2
-        text-justify text-base
-      "
-    >
-      {{ label }}
-    </label>
+    <label-element :label="label" />
     <div
       class="
         grid grid-flow-row
@@ -56,12 +46,15 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, Ref, ref, watch } from 'vue'
+  import { defineAsyncComponent, defineComponent, Ref, ref, watch } from 'vue'
   import { useStore } from '../../store'
   import { useAccounts } from '../../composables/accounts'
   import { Account } from '../../typings/user'
 
   export default defineComponent({
+    components: {
+      LabelElement: defineAsyncComponent(() => import('./LabelElement.vue')),
+    },
     props: {
       modelValue: {
         type: Object as Account,

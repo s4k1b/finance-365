@@ -50,7 +50,7 @@ export interface Good<T> {
 export interface SalaryIn extends Event, Transaction {
   type: 'salary-in'
   to: Account
-  from: string
+  from: string | User
   forMonth: string
 }
 
