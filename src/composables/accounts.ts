@@ -42,7 +42,10 @@ const addNewAccount: AddNewAccount = async (userId, accountOb) => {
       .collection('users')
       .doc(userId)
       .update({
-        accounts: firebase.firestore.FieldValue.arrayUnion(accountOb),
+        accounts: firebase.firestore.FieldValue.arrayUnion({
+          ...accountOb,
+          id: new Date().getTime(),
+        }),
       })
     toast.success('Successfully added new account')
   } catch (e) {
@@ -95,12 +98,7 @@ const updateAccountBalance: UpdateAccountBalance = async function (
       const accounts: Array<Account> = user?.accounts || []
 
       // find the account that matches the account parameter
-      const idx = accounts.findIndex(
-        (ac) =>
-          ac.balance === account.balance &&
-          ac.logoUrl === account.logoUrl &&
-          ac.name === account.name
-      )
+      const idx = accounts.findIndex((ac) => ac.id === account.id)
 
       // update the balance
       if (accounts[idx]) {

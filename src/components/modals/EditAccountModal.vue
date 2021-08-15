@@ -82,7 +82,7 @@
 
       const account = computed(() => accounts.value[props.accountIndex])
 
-      const isCashAccount = accounts.value[props.accountIndex].name === 'Cash'
+      const isCashAccount = accounts.value[props.accountIndex].isCashAccount
 
       const name = ref('')
       const balance = ref('')

@@ -65,6 +65,7 @@ export function useFirebaseAuth(): FirebaseAuth {
                 // https://www.dutchbanglabank.com/img/logo-footer.png
                 name: 'Cash',
                 isCashAccount: true,
+                id: new Date().getTime(),
               },
             ]
             docRef.set({ name, email, id, profilePicUrl, accounts })

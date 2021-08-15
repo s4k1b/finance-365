@@ -48,6 +48,7 @@ const addNewContact: AddNewContact = async (userId, contactOb) => {
       .update({
         contacts: firebase.firestore.FieldValue.arrayUnion({
           ...contactOb,
+          id: new Date().getTime(),
           profilePicUrl,
         }),
       })
