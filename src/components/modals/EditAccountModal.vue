@@ -3,7 +3,12 @@
     <template #modal-title>Edit Account</template>
     <div class="grid grid-flow-row gap-4 grid-cols-2 w-full">
       <div class="col-span-2">
-        <simple-input v-model="name" label="Account Name" type="text" />
+        <simple-input
+          v-model="name"
+          label="Account Name"
+          type="text"
+          :disabled="isCashAccount ? true : null"
+        />
       </div>
 
       <div class="col-span-2">
@@ -20,6 +25,7 @@
           label="Account Logo Url"
           type="text"
           class="col-span-2"
+          :disabled="isCashAccount ? true : null"
         />
       </div>
     </div>
@@ -76,6 +82,8 @@
 
       const account = computed(() => accounts.value[props.accountIndex])
 
+      const isCashAccount = accounts.value[props.accountIndex].name === 'Cash'
+
       const name = ref('')
       const balance = ref('')
       const logoUrl = ref('')
@@ -103,6 +111,8 @@
       }
 
       return {
+        isCashAccount,
+
         name,
         balance,
         logoUrl,

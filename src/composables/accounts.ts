@@ -13,6 +13,11 @@ type UpdateAccount = (
   accountIndex: number,
   accountOb: Account
 ) => void
+type UpdateAccountBalance = (
+  userId: string,
+  account: Account,
+  amount: number
+) => void
 type DeleteAccount = (userId: string, accountIndex: number) => void
 type AccountsComposable = {
   accounts: Ref<RootState['accounts']>
@@ -20,6 +25,7 @@ type AccountsComposable = {
   addNewAccount: AddNewAccount
   isAccountUpdating: Ref<boolean>
   updateAccount: UpdateAccount
+  updateAccountBalance: UpdateAccountBalance
   isAccountDeleting: Ref<boolean>
   deleteAccount: UpdateAccount
 }
@@ -77,6 +83,45 @@ const updateAccount: UpdateAccount = async (
   isAccountUpdating.value = false
 }
 
+const updateAccountBalance: UpdateAccountBalance = async function (
+  userId,
+  account,
+  amount
+) {
+  try {
+    const userRef = await fireStore.collection('users').doc(userId).get()
+    if (userRef.exists) {
+      const user = userRef.data()
+      const accounts: Array<Account> = user?.accounts || []
+
+      // find the account that matches the account parameter
+      const idx = accounts.findIndex(
+        (ac) =>
+          ac.balance === account.balance &&
+          ac.logoUrl === account.logoUrl &&
+          ac.name === account.name
+      )
+
+      // update the balance
+      if (accounts[idx]) {
+        if (typeof accounts[idx].balance === 'number') {
+          accounts[idx].balance = <number>accounts[idx].balance + amount
+        } else {
+          accounts[idx].balance = amount
+        }
+      }
+
+      // update user doc
+      await fireStore
+        .collection('users')
+        .doc(userId)
+        .set({ accounts }, { merge: true })
+    }
+  } catch (e) {
+    toast.error(e)
+  }
+}
+
 const isAccountDeleting: Ref<boolean> = ref(false)
 const deleteAccount: DeleteAccount = async (userId, accountIndex) => {
   isAccountDeleting.value = true
@@ -114,6 +159,7 @@ export function useAccounts(store: Store<RootState>): AccountsComposable {
     addNewAccount,
     isAccountUpdating,
     updateAccount,
+    updateAccountBalance,
     isAccountDeleting,
     deleteAccount,
   }

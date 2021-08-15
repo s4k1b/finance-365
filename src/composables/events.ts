@@ -4,11 +4,18 @@ import { Store } from 'vuex'
 import { useFireStore } from '../plugins/firebase'
 import { FinancialEvent } from '../typings/event'
 import { RootState } from '../typings/store/state'
+import { Account } from '../typings/user'
 
 type AddNewEvent = (
   userId: string,
   eventOb: Omit<Omit<Omit<FinancialEvent, 'createdAt'>, 'ownerId'>, 'id'>
 ) => void
+type GetEventAccountAndAmount = (
+  event: {
+    type: string
+  },
+  eventBody: { amount: number; to: Account | string; from: Account | string }
+) => { account: Account | string; amount: number }
 export interface EventType {
   type: string
   title: string
@@ -18,6 +25,7 @@ export interface EventsComposable {
   eventTypes: Ref<Array<EventType>>
   isEventAdding: Ref<boolean>
   addNewEvent: AddNewEvent
+  getEventAccountAndAmount: GetEventAccountAndAmount
 }
 
 const eventTypes = ref([
@@ -93,10 +101,28 @@ const addNewEvent: AddNewEvent = async (userId, eventOb) => {
   isEventAdding.value = false
 }
 
+const getEventAccountAndAmount: GetEventAccountAndAmount = function (
+  event,
+  eventBody
+) {
+  if (event.type === 'salary-in') {
+    return {
+      account: eventBody.to,
+      amount: eventBody.amount,
+    }
+  }
+
+  return {
+    account: { name: '' },
+    amount: 0,
+  }
+}
+
 export function useEvents(store: Store<RootState>): EventsComposable {
   return {
     eventTypes,
     isEventAdding,
     addNewEvent,
+    getEventAccountAndAmount,
   }
 }

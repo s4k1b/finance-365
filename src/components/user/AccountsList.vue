@@ -25,7 +25,7 @@
           </div>
           <div class="flex flex-row px-2">
             <account-edit-button :index="id" />
-            <account-delete-button :index="id" />
+            <account-delete-button v-if="account.name !== 'Cash'" :index="id" />
           </div>
         </div>
       </list-item>

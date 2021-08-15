@@ -69,6 +69,9 @@
     outline: none;
     height: 40px;
   }
+  .simple-dateinput:disabled {
+    @apply text-gray-300 cursor-not-allowed;
+  }
   .simple-dateinput-label {
     @apply absolute pointer-events-none block px-2 text-justify text-base text-gray-400;
     transform-origin: top left;

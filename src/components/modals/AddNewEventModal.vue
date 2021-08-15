@@ -74,8 +74,10 @@
 
 <script lang="ts">
   import { defineAsyncComponent, defineComponent, ref, watch } from 'vue'
+  import { useAccounts } from '../../composables/accounts'
   import { useEvents } from '../../composables/events'
   import { useUser } from '../../composables/user'
+  import { useStore } from '../../store'
 
   export default defineComponent({
     components: {
@@ -134,12 +136,25 @@
         activeStep.value = Math.min(stepCount.value, activeStep.value + 1)
       }
 
-      const { isEventAdding, addNewEvent } = useEvents()
+      const { isEventAdding, addNewEvent, getEventAccountAndAmount } =
+        useEvents()
+
+      const store = useStore()
+      const { updateAccountBalance } = useAccounts(store)
+
       async function done() {
         await addNewEvent(user.value.id, {
           ...event.value,
           ...eventBody.value,
         })
+
+        // update account balance according to event type
+        const { account, amount } = getEventAccountAndAmount(
+          event.value,
+          eventBody.value
+        )
+        updateAccountBalance(user.value.id, account, amount)
+
         emit('close-modal', true)
       }
 
